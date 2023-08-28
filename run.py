@@ -3,7 +3,7 @@ from flask import Flask, render_template, session, request, \
 from flask_socketio import SocketIO, emit, join_room, leave_room, \
     close_room, rooms, disconnect
 
-async_mode = None
+async_mode = 'threading'
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
@@ -16,20 +16,20 @@ def my_event(message):
     emit('my_response',
          {'data': message['data'], 'count': session['receive_count']})
 
-@socketio.on('post')
-def on_post(message):
+@socketio.event
+def post(message):
     
-    emit(message['follower'],{'data':message})
+    socketio.emit(message['follower'],{'data':message})
 
-@socketio.on('clap')
-def on_clap(message):
+@socketio.event
+def clap(message):
     
-    emit(message['user'],{'data':message})
+    socketio.emit(message['user'],{'data':message})
 
-@socketio.on('follow')
-def on_follow(message):
+@socketio.event
+def follow(message):
     
-    emit(message['user'],{'data':message})
+    socketio.emit(message['user'],{'data':message})
     
 
 @socketio.event
