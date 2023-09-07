@@ -18,9 +18,12 @@ def my_event(message):
 
 @socketio.event
 def post(message):
-    
-    socketio.emit('notification',{'data':message,'scope':'others','type':'new_post'})
-
+    if message['type'] == 'post':
+        socketio.emit('notification',{'data':message,'scope':'others','type':'new_post'})
+    if message['type'] == 'follow':
+        socketio.emit('notfication',{'data':message,'scope':message['user'],'type':'follow'})
+    if message['type'] == 'clap':
+        socketio.emit('notification',{'data':message,'scope':'others','type':'clap'})
 @socketio.event
 def clap(message):
     
