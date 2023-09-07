@@ -19,17 +19,17 @@ def my_event(message):
 @socketio.event
 def post(message):
     
-    socketio.emit(message['follower'],{'data':message})
+    socketio.emit('notification',{'data':message,'scope':'others','type':'new_post'})
 
 @socketio.event
 def clap(message):
     
-    socketio.emit(message['user'],{'data':message})
+    socketio.emit('notification',{'data':message,'scope':'others','type':'clap'})
 
 @socketio.event
 def follow(message):
     
-    socketio.emit(message['user'],{'data':message})
+    socketio.emit('notfication',{'data':message,'scope':message['user'],'type':'follow'})
     
 
 @socketio.event
