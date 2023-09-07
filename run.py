@@ -13,8 +13,8 @@ socketio = SocketIO(app,async_mode=async_mode,cors_allowed_origins='*')
 @socketio.event
 def my_event(message):
     session['receive_count'] = session.get('receive_count', 0) + 1
-    emit('my_response',
-         {'data': message['data'], 'count': session['receive_count']})
+    emit('notification',
+         {'data': message,'scope':message['user'],'type':'follow'})
 
 @socketio.event
 def post(message):
